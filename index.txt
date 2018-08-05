@@ -1,0 +1,35 @@
+pragma solidity ^0.4.18;
+
+contract Coursetro {
+    
+   string fName;
+   uint age;
+   // owner is of type address(stores address).
+   address owner;
+
+   function Coursetro(){
+        owner=msg.sender;//address of the creator of contract     
+   }
+    
+    modifier onlyOwner{
+        require(msg.sender==owner);//if address of user == owner ,he/she can change the instructor else not.
+        _; //runs the body of the function where the above modifier is used, if above requirement is true
+    }   
+       
+   event Instructor(
+       string name,
+       uint age
+    );
+   
+   function setInstructor(string _fName, uint _age) onlyOwner public {
+       fName = _fName;
+       age = _age;
+       Instructor(_fName,_age); 
+       
+       
+   }
+   
+   function getInstructor() public constant returns (string, uint) {
+       return (fName, age);
+   }
+}
